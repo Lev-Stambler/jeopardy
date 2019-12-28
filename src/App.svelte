@@ -28,8 +28,10 @@ function routeLoaded() {
 }
 let visited = [[], [], [], [], []].map(arr => [false, false, false, false, false])
 let questions = [[], [], [], [], []].map(arr => [false, false, false, false, false])
+let answers = [[], [], [], [], []].map(arr => [false, false, false, false, false])
 setContext('visited', visited)
 setContext('questions', questions)
+setContext('answers', answers)
 </script>
 
 <main>

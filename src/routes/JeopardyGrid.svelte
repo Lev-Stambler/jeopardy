@@ -15,7 +15,14 @@
     font-size: 29px;
     padding: 20px;
     text-align: center;
-    border: 1px black solid;
+    border: 1px rgba(148, 148, 148, 0.397) solid;
+    transition: 100ms transform;
+  }
+
+  .grid-item.q:hover {
+    transform: scale(1.1);
+    border: 0px rgba(148, 148, 148, 0.397) solid;
+    background: rgb(74, 74, 252);
   }
 
   .category-title {
@@ -43,30 +50,31 @@
   }
 
 </style>
-<div class="grid-container">
+<div class="grid-container" in:fade>
   {#each categories as category}
     <div class="grid-item category-title">
       {category}
     </div>
   {/each}
   {#each categories as category, i}
-    <div class="grid-item"><a href="#/question/{i}/0" class="{ visited[i][0] ? 'visited' : ''}" on:click="{() => isVisited(i, 0)}">100</a></div>
+    <div class="grid-item q"><a href="#/question/{i}/0" class="{ visited[i][0] ? 'visited' : ''}" on:click="{() => isVisited(i, 0)}">100</a></div>
   {/each}
   {#each categories as category, i}
-    <div class="grid-item"><a href="#/question/{i}/1" class="{ visited[i][1] ? 'visited' : ''}" on:click="{() => isVisited(i, 1)}">200</a></div>
+    <div class="grid-item q"><a href="#/question/{i}/1" class="{ visited[i][1] ? 'visited' : ''}" on:click="{() => isVisited(i, 1)}">200</a></div>
   {/each}
   {#each categories as category, i}
-    <div class="grid-item"><a href="#/question/{i}/2" class="{ visited[i][2] ? 'visited' : ''}" on:click="{() => isVisited(i, 2)}">300</a></div>
+    <div class="grid-item q"><a href="#/question/{i}/2" class="{ visited[i][2] ? 'visited' : ''}" on:click="{() => isVisited(i, 2)}">300</a></div>
   {/each}
   {#each categories as category, i}
-    <div class="grid-item"><a href="#/question/{i}/3" class="{ visited[i][3] ? 'visited' : ''}" on:click="{() => isVisited(i, 3)}">400</a></div>
+    <div class="grid-item q"><a href="#/question/{i}/3" class="{ visited[i][3] ? 'visited' : ''}" on:click="{() => isVisited(i, 3)}">400</a></div>
   {/each}
   {#each categories as category, i}
-    <div class="grid-item"><a href="#/question/{i}/4" class="{ visited[i][4] ? 'visited' : ''}" on:click="{() => isVisited(i, 4)}">500</a></div>
+    <div class="grid-item q"><a href="#/question/{i}/4" class="{ visited[i][4] ? 'visited' : ''}" on:click="{() => isVisited(i, 4)}">500</a></div>
   {/each}
 </div>
 
 <script>
+	import { fade } from 'svelte/transition';
   import { getContext, setContext } from 'svelte'
   let visited = getContext('visited')
 
