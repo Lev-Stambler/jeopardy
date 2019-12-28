@@ -1,15 +1,5 @@
 <!-- {question} -->
 <style>
-  .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
-    background:  #060CE9;
-    flex-direction: column;
-  }
   .answer-show div {
     color: white;
     font-size: 27px;
