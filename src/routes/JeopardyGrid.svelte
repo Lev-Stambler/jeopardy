@@ -9,7 +9,8 @@
   .grid-container {
     display: inline-grid;
     background-color: #060CE9;
-    width: 70vw;
+    width: 90vw;
+    height: 90%;
   }
 
   .grid-item {

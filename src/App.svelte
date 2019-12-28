@@ -4,6 +4,7 @@ import QuestionShower from './routes/QuestionShower.svelte'
 import AnswerShower from './routes/AnswerShower.svelte'
 import MinigameShower from './routes/MinigameShower.svelte'
 import NotFound from './routes/NotFound.svelte'
+import TitlePage from './routes/TitlePage.svelte'
 import Router from 'svelte-spa-router'
 import { setContext } from 'svelte'
 
@@ -13,7 +14,7 @@ import { setContext } from 'svelte'
 const routes = {
     // Exact path
     '/': JeopardyGrid,
- 
+		'/title': TitlePage,
     '/question/:category/:number': QuestionShower,
     '/answer/:category/:number': AnswerShower,
     '/minigame/:number': MinigameShower,
