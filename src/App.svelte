@@ -1,25 +1,83 @@
 <script>
-	export let name;
+import JeopardyGrid from './routes/JeopardyGrid.svelte'
+import QuestionShower from './routes/QuestionShower.svelte'
+import AnswerShower from './routes/AnswerShower.svelte'
+import MinigameShower from './routes/MinigameShower.svelte'
+import NotFound from './routes/NotFound.svelte'
+import Router from 'svelte-spa-router'
+import { setContext } from 'svelte'
+
+/**
+ * 5 by 5 board
+ */ 
+const routes = {
+    // Exact path
+    '/': JeopardyGrid,
+ 
+    '/question/:category/:number': QuestionShower,
+    '/answer/:category/:number': AnswerShower,
+    '/minigame/:number': MinigameShower,
+ 
+    // Catch-all
+    // This is optional, but if present it must be the last
+    '*': NotFound,
+}
+let hash = window.location.hash
+function routeLoaded() {
+	hash = window.location.hash
+}
+let visited = [[], [], [], [], []].map(arr => [false, false, false, false, false])
+let questions = [[], [], [], [], []].map(arr => [false, false, false, false, false])
+setContext('visited', visited)
+setContext('questions', questions)
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<div class="page-container">
+		{#if hash.length > 2}
+		<div class="home icon-container">
+			<a href="#/">
+				<img src="https://image.flaticon.com/icons/png/512/25/25694.png" alt="">
+			</a>
+		</div>
+		{/if}
+		<Router {routes} on:routeLoaded={routeLoaded}/>
+	</div>
 </main>
 
 <style>
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
+		height: 100%;
+		padding: 0;
+		color: rgb(211, 211, 211);
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+	.home {
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		filter: invert(70%);
+	}
+
+	.icon-container {
+		height: 30px;
+		width: 30px;
+	}
+
+	.icon-container img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.page-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		margin: 0;
+		align-items: center;
+		justify-content: center;
 	}
 
 	@media (min-width: 640px) {
