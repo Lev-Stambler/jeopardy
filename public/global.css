@@ -13,6 +13,11 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
+.small-space {
+	display: block;
+	height: 1px;
+}
+
 .statement {
 	font-size: 40px;
 	color: rgb(255, 255, 193);

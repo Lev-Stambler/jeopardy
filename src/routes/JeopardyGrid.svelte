@@ -5,10 +5,11 @@
     grid-template: "a a a a a"
                    "b b b b b"
                    "c c c c c";
+          
   }
   .grid-container {
     display: inline-grid;
-    background-color: #060CE9;
+    background-color: rgb(70, 74, 197);
     width: 90vw;
     height: 90%;
   }
@@ -24,7 +25,7 @@
   .grid-item.q:hover {
     transform: scale(1.1);
     border: 0px rgba(148, 148, 148, 0.397) solid;
-    background: rgb(74, 74, 252);
+    background: rgb(45, 45, 145);
   }
 
   .category-title {
@@ -33,7 +34,7 @@
   }
   
   a {
-    color: rgb(253, 240, 48);
+    color: rgb(235, 225, 93);
     text-decoration: none;
   }
 
@@ -79,8 +80,7 @@
 	import { fade } from 'svelte/transition';
   import { getContext, setContext } from 'svelte'
   let visited = getContext('visited')
-
-  export let categories = ["fake", "fake", "fake", "fake", "fake"]
+  let categories = getContext('categories')
   function isVisited(i, j) {
     console.log(visited)
     visited[i][j] = true

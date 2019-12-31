@@ -23,6 +23,7 @@ const setStoreProm = setStores()
 let answers
 let questions
 let visited
+let categories
 async function setStores() {
 	const ret = await fetch('http://localhost:8080', {
 		method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -32,7 +33,7 @@ async function setStores() {
 	const body = await ret.json()
 	visited = [[], [], [], [], []].map(arr => [false, false, false, false, false])
 	let categoriesNonred = body.questions.map(q => q.category_name)
-	let categories = categoriesNonred.filter((cat, i) => categoriesNonred.indexOf(cat) === i)
+	categories = categoriesNonred.filter((cat, i) => categoriesNonred.indexOf(cat) === i)
 	console.log("AAAA", categories, categoriesNonred)
 	let qaFlat = body.questions //.map(question => {return { question_text: question.question_text, answer: question.answer }}) //[[], [], [], [], []].map(arr => [false, false, false, false, false])
 	questions = []
@@ -42,8 +43,25 @@ async function setStores() {
 	answers.push([], [], [], [], [])
 	answers.map(arr => [false, false, false, false, false])
 	for (var i = 0; i < qaFlat.length; i++) {
-		questions[categories.indexOf(qaFlat[i].category_name)][parseInt(qaFlat[i].point_value) / 100 - 1] = qaFlat[i].question_text
-		answers[categories.indexOf(qaFlat[i].category_name)][parseInt(qaFlat[i].point_value) / 100 - 1] = qaFlat[i].answer
+		const r = categories.indexOf(qaFlat[i].category_name)
+		const x = parseInt(qaFlat[i].point_value) / 100 - 1
+		questions[r][x] = qaFlat[i].question_text.split("\n").join("<div class='small-space'></div>")
+		answers[r][x] = qaFlat[i].answer.replace("\n", "<br />")
+		if (questions[r][x].indexOf("a.") !== -1 && questions[r][x].indexOf("b.") !== -1) {
+			questions[r][x] = questions[r][x] + `
+				<style>
+					.statement {
+						font-size: 30px;
+					}
+				</style>
+			`
+		}
+		questions[r][x] = questions[r][x].split("?t").join("'t")
+		questions[r][x] = questions[r][x].split("?s").join("'s")
+		answers[r][x] = answers[r][x].split("?t").join("'t")
+		answers[r][x] = answers[r][x].split("?s").join("'s")
+		if (answers[r][x].indexOf(`https://en.wikipedia.org/wiki/List_of_Olympic_medalists_in_figure_skating`) !== -1)
+			answers[r][x] = "Consult score keepers"
 	}
 	routes = {
 		// Exact path
@@ -62,6 +80,7 @@ function init() {
 	setContext('visited', visited)
 	setContext('questions', questions)
 	setContext('answers', answers)
+	setContext('categories', categories)
 	return ""
 }
 </script>

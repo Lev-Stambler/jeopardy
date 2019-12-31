@@ -8,7 +8,7 @@
 </style>
 <div class="blue-container" in:fade>
   <div class="question statement">
-    {question}
+    {@html question}
   </div>
   <button class="button-show" on:click={() => window.location.hash = `#/answer/${params.category}/${params.number}`}>
     <div>See Answer</div>
