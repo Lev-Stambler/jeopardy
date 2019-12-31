@@ -1545,8 +1545,8 @@ If you were to vote for someone in this room to be president who would it be (ca
     	} else if (numbVisited === 20 && miniGameHit[2] === false) {
     		miniGameHit[2] = true;
 
-    		showMinigame("Durak", `Two  people from each team sitting diagonally (so sandwiched between two people), team with person in last place loses the points for the team.
-ideally, don’t send children to play, participants in charades shouldn’t play, 300 points for the winning team
+    		showMinigame("Durak", `Two people from each team sitting diagonally (so sandwiched between two people). The team with the person in last place loses.
+Ideally, don’t send children to play. Participants in charades should also not play. 300 points for the winning team.
 `);
     	}
 
