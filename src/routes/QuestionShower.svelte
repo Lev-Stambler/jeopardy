@@ -27,6 +27,6 @@
   export let params = {}
   import { getContext, setContext } from 'svelte'
   let question = getContext('questions')[params.category][params.number]
-  setTimeout(() => window.location.hash = `#/answer/${params.category}/${params.number}`, 33000)
+  // setTimeout(() => window.location.hash = `#/answer/${params.category}/${params.number}`, 33000)
 
 </script>

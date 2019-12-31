@@ -11,31 +11,66 @@ import { setContext } from 'svelte'
 /**
  * 5 by 5 board
  */ 
-const routes = {
-    // Exact path
-    '/': JeopardyGrid,
-		'/title': TitlePage,
-    '/question/:category/:number': QuestionShower,
-    '/answer/:category/:number': AnswerShower,
-    '/minigame/:number': MinigameShower,
- 
-    // Catch-all
-    // This is optional, but if present it must be the last
-    '*': NotFound,
-}
+let routes = {}
+setContext('visited', [])
+setContext('questions', [])
+setContext('answers', [])
 let hash = window.location.hash
 function routeLoaded() {
 	hash = window.location.hash
 }
-let visited = [[], [], [], [], []].map(arr => [false, false, false, false, false])
-let questions = [[], [], [], [], []].map(arr => [false, false, false, false, false])
-let answers = [[], [], [], [], []].map(arr => [false, false, false, false, false])
-setContext('visited', visited)
-setContext('questions', questions)
-setContext('answers', answers)
+const setStoreProm = setStores()
+let answers
+let questions
+let visited
+async function setStores() {
+	const ret = await fetch('http://localhost:8080', {
+		method: 'GET', // *GET, POST, PUT, DELETE, etc.
+		mode: 'cors', // no-cors, *cors, same-origin
+		cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+	})
+	const body = await ret.json()
+	visited = [[], [], [], [], []].map(arr => [false, false, false, false, false])
+	let categoriesNonred = body.questions.map(q => q.category_name)
+	let categories = categoriesNonred.filter((cat, i) => categoriesNonred.indexOf(cat) === i)
+	console.log("AAAA", categories, categoriesNonred)
+	let qaFlat = body.questions //.map(question => {return { question_text: question.question_text, answer: question.answer }}) //[[], [], [], [], []].map(arr => [false, false, false, false, false])
+	questions = []
+	answers = []
+	questions.push([], [], [], [], [])
+	questions.map(arr => [false, false, false, false, false])
+	answers.push([], [], [], [], [])
+	answers.map(arr => [false, false, false, false, false])
+	for (var i = 0; i < qaFlat.length; i++) {
+		questions[categories.indexOf(qaFlat[i].category_name)][parseInt(qaFlat[i].point_value) / 100 - 1] = qaFlat[i].question_text
+		answers[categories.indexOf(qaFlat[i].category_name)][parseInt(qaFlat[i].point_value) / 100 - 1] = qaFlat[i].answer
+	}
+	routes = {
+		// Exact path
+		'/': JeopardyGrid,
+		'/title': TitlePage,
+		'/question/:category/:number': QuestionShower,
+		'/answer/:category/:number': AnswerShower,
+		'/minigame/:number': MinigameShower,
+		
+		// Catch-all
+		// This is optional, but if present it must be the last
+		'*': NotFound,
+	}
+}
+function init() {
+	setContext('visited', visited)
+	setContext('questions', questions)
+	setContext('answers', answers)
+	return ""
+}
 </script>
 
 <main>
+{#await setStoreProm}
+loading{:then value}
+{init()}
+	<!-- promise was fulfilled -->
 	<div class="page-container">
 		{#if hash.length > 2}
 		<div class="home icon-container">
@@ -46,6 +81,10 @@ setContext('answers', answers)
 		{/if}
 		<Router {routes} on:routeLoaded={routeLoaded}/>
 	</div>
+{:catch error}
+{error}
+	<!-- promise was rejected -->
+{/await}
 </main>
 
 <style>

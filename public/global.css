@@ -15,8 +15,9 @@ body {
 
 .statement {
 	font-size: 40px;
-	color: rgb(255, 255, 30);
+	color: rgb(255, 255, 193);
 	font-weight: 600;
+	padding: 2rem 6rem;
 }
 
 .button-show div {
@@ -43,7 +44,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	overflow: visible;
-	background:  #060CE9;
+	background:  rgb(45, 49, 170);
 	flex-direction: column;
 }
 
