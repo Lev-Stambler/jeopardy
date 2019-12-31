@@ -53,6 +53,9 @@
   }
 
 </style>
+{#if miniGameVis}
+  <MinigGame title ={currentMiniGameStr} desc = {currentDescStr} on:submit={() => { miniGameVis = false }}/>
+{/if}
 <div class="grid-container" in:fade>
   {#each categories as category}
     <div class="grid-item category-title">
@@ -77,13 +80,44 @@
 </div>
 
 <script>
-	import { fade } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
+  import MinigGame from '../general/MiniGame.svelte'
   import { getContext, setContext } from 'svelte'
   let visited = getContext('visited')
+  let miniGameVis = false
+  let currentMiniGameStr
+  let currentDescStr
+  let miniGameHit = [false, false, false]
+  let numbVisited = visited.flat().reduce((red, val) => {
+    console.log(val); 
+    if (val === true) { return red + 1; }
+    else return red; 
+  }, 0)
+  if (numbVisited === 7 && miniGameHit[0] === false) {
+    miniGameHit[0] = true
+    showMinigame('Family Feud', `People vote on decade related themes (three questions, 100 each)<br/>
+What is your favorite movie of this decade?<br/>
+What major US political event is the best thing to happen this decade?<br/>
+If you were to vote for someone in this room to be president who would it be (can’t be your name) also no age restrictions
+`)
+  } else if (numbVisited === 14 && miniGameHit[1] === false) {
+    miniGameHit[1] = true
+    showMinigame('Charades', `Each team send one representative. If you can guess within the time limit your team wins 300 points`)
+  } else if (numbVisited === 20 && miniGameHit[2] === false) {
+    miniGameHit[2] = true
+    showMinigame('Durak', `Two  people from each team sitting diagonally (so sandwiched between two people), team with person in last place loses the points for the team.
+ideally, don’t send children to play, participants in charades shouldn’t play, 300 points for the winning team
+`)
+  }
   let categories = getContext('categories')
   function isVisited(i, j) {
     console.log(visited)
     visited[i][j] = true
     setContext('visited', visited)
+  }
+  function showMinigame(title, desc) {
+    currentMiniGameStr = title
+    currentDescStr = desc
+    miniGameVis = true
   }
 </script>

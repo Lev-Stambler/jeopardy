@@ -61,7 +61,7 @@ async function setStores() {
 		answers[r][x] = answers[r][x].split("?t").join("'t")
 		answers[r][x] = answers[r][x].split("?s").join("'s")
 		if (answers[r][x].indexOf(`https://en.wikipedia.org/wiki/List_of_Olympic_medalists_in_figure_skating`) !== -1)
-			answers[r][x] = "Consult score keepers"
+			answers[r][x] = "Consult Hosts"
 	}
 	routes = {
 		// Exact path
@@ -119,6 +119,7 @@ loading{:then value}
 		top: 20px;
 		left: 20px;
 		filter: invert(70%);
+		z-index: 100000;
 	}
 
 	.icon-container {
